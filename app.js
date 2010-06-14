@@ -22,6 +22,10 @@
  *    simple way to test modules, since the only mock needed for
  *    testing is a mock sandbox.
  *
+ * This code written by Jared Hirsch over about a week's worth of
+ * after-work evenings in June 2010. Not guaranteed to be IP-clean; 
+ * don't build anything on top of it. Toward this end, the author 
+ * reserves the rights to this code: read, enjoy--but don't use it.
  */
 
 /* begin jslint-specific stuff: */
