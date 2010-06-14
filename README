@@ -1,0 +1,25 @@
+/*
+ * Hummingbird: A small JavaScript app framework, at your service.
+ *
+ * The basic idea is to separate concerns, providing the groundwork
+ * for an extensible, easy-to-test application.
+ *
+ *  - jQuery is used to abstract the underlying browser away.
+ *  
+ *  - 'library' is used to decouple jQuery from all other app code.
+ *    This allows another library to be swapped in later with less
+ *    pain.
+ *  
+ *  - 'widgets' is similarly used to decouple jQuery UI from all
+ *    other code, by storing preconfigured UI effects.
+ *  
+ *  - 'events' is a very simple event dispatcher and registry.
+ *  
+ *  - 'container' manages lifecycle of page component modules.
+ *  
+ *  - 'sandbox' decouples page component modules from ALL other 
+ *    APIs. While this seems crazy at first, it provides a dead
+ *    simple way to test modules, since the only mock needed for
+ *    testing is a mock sandbox.
+ *
+ */
