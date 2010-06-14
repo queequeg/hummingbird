@@ -258,8 +258,7 @@ var APP = (function () {
 
       /*
        * detachAll is used to detach all registered listeners
-       * at once. Useful when unloading a page, to avoid memory
-       * leaks in IE.
+       * at once. 
        */
       detachAll: function () {
         listeners = {};
