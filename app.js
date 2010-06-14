@@ -342,7 +342,7 @@ var APP = (function () {
       detach: function (eventType, data) {
         events.detach(eventType, data);
       },
-      detachAll: function() {
+      detachAll: function () {
         events.detachAll();
       }
 
