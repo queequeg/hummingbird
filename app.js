@@ -338,6 +338,12 @@ var APP = (function () {
       },
       publish: function (eventType, data) {
         events.publish(eventType, data);
+      },
+      detach: function (eventType, data) {
+        events.detach(eventType, data);
+      },
+      detachAll: function() {
+        events.detachAll();
       }
 
     };
