@@ -252,7 +252,7 @@ var APP = (function () {
           };
         }
         var i, evt = listeners[eventType];
-        for (i = 0; i < evt.length; i + 1) {
+        for (i = 0; i < evt.length; i = i + 1) {
           if (evt.hasOwnProperty(evt[i]) &&
               (evt[i] === callback)) {
             evt.splice(i, 1); 
@@ -276,7 +276,7 @@ var APP = (function () {
        */
       publish: function (eventType, data) {
         var i, numberOfListeners = listeners[eventType].length;
-        for (i = 0; i < numberOfListeners; i + 1) {
+        for (i = 0; i < numberOfListeners; i = i + 1) {
           try { 
             listeners[eventType][i].call(library, data);
           } catch (e) {
