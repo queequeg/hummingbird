@@ -166,7 +166,7 @@ var APP = (function () {
         },
 
         /*
-         * editableCallback provides a jQuery Jeditable in-place
+         * editableTitle provides a jQuery Jeditable in-place
          * editor, but allows the module to supply a callback method
          * to be called after the updated text is submitted. This
          * callback method might send an xhr to the server-side, 
