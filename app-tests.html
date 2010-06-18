@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" href="js/jquery/qunit.3e0d8b.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery/qunit.2dbf60.js"></script>
+<script src="js/jquery/jquery-1.4.2.min.js"></script>
+<!-- to keep things simple, just source the files separately;
+     no fancy loader tools needed for the moment -->
+<script src="js/hum/library.js"></script>
+<script src="js/hum/widgets.js"></script>
+<script src="js/hum/events.js"></script>
+<script src="js/hum/sandbox.js"></script>
+<script src="js/hum/container.js"></script>
+<script src="js/hum/app.js"></script>
+
+  <script>
+  $(document).ready(function(){
+
+module("events: event registration testing");
+test("register should require callbacks to be functions", function() {
+  var e = events({log: function() {}});
+  var bad = {};
+  try {
+    e.register("evt", bad);
+    ok(false, "should not allow non-functions to be assigned as callbacks");
+  } catch (e) {
+    ok(true);
+  }
+});
+test("register should require event types to be strings", function() {
+  var e = events({log: function() {}});
+  var badEvt = {type: "foo"};
+  try {
+    e.register(badEvt, function() {});
+    ok(false, "should require event types to be strings");
+  } catch (e) {
+    ok(true);
+  }
+});
+test("register should not attach duplicate event handlers", function() {
+  var e = events({log: function() {}});
+  var cb = function() { "I am a callback"; };
+  try {
+    e.register("evt", cb);
+    e.register("evt", cb);
+    ok(false, "'register' registered the same event-callback pair twice");
+  } catch (e) {
+    ok(true);
+  }
+});
+test("register should not attempt to detach callback from missing event", function() {
+  var e = events({log: function() {}});
+  try { 
+    e.detach("nonevent", "nontarget");
+    ok(false, "did not throw Error when detaching unregistered event");
+  } catch (e) {
+    ok(true); 
+  }
+});
+test("register should not attempt to detach missing callback from registered event", 
+function() {
+  var e = events({log: function() {}});
+  var cb = function() { "I am a callback"; };
+  e.register("evt", cb);
+  try {
+    e.detach("evt", callbackDoesNotExist);
+    ok(false, "did not throw error when detaching unregistered callback from event");
+  } catch (e) {
+    ok(true);
+  }
+});
+
+module("events: synthetic event delegation testing");
+
+test("should dispatch a synthetic event exactly once to one attached listener",
+function() {  
+  /* events only uses library.log; stub it out */
+  var e = events({log: function() {}});
+  var count = 0
+  e.register("test-event", function() { count = count + 1; });
+  equals(0, count);
+  e.publish("test-event");
+  equals(1, count);
+  e.publish("test-event");
+  equals(2, count);
+});
+test("should dispatch a synthetic event exactly once to each of two attached listeners",
+function() {  
+  /* events only uses library.log; stub it out */
+  var e = events({log: function() {}});
+  var count = 0
+  var otherCount = 0;
+  e.register("test-event", function() { count = count + 1; });
+  e.register("test-event", function() { otherCount = otherCount + 1; });
+  equals(0, count);
+  equals(0, otherCount);
+  e.publish("test-event");
+  equals(1, count);
+  equals(1, otherCount);
+  e.publish("test-event");
+  equals(2, count);
+  equals(2, otherCount);
+});
+test("should not call a callback after detaching a listener",
+function() {  
+  /* events only uses library.log; stub it out */
+  var e = events({log: function() {}});
+  var count = 0
+  var callback = function() { 
+    count = count + 1; 
+  };
+  equals(0, count);
+  e.register("test-event", callback);
+  e.publish("test-event");
+  equals(1, count); // it definitely works
+  e.detach("test-event", callback);
+  e.publish("test-event");
+  equals(1, count); // it stopped working
+});
+
+/* because you want flexibility, as an event thrower, to not worry about it */
+test("should NOT throw error if no listeners exist for synthetic event", function() {
+  var e = events({log: function() {}});
+  e.publish("some-event");
+});
+
+test("should write to log if no listeners exist for synthetic event", function() {  
+  var log = "", 
+    e = events({
+      log: function(sev, msg) { 
+        log += sev + ": " + msg; 
+      }
+    });
+  ok("" == log, "log should equal nothing");
+  e.publish("some-event");
+  ok("" != log, "log should be written when event is published but has no listeners");
+});
+
+module("events: DOM event delegation testing");
+
+  });
+  </script>
+  
+</head>
+<body>
+  <!-- <h1 id="qunit-header">QUnit example</h1> -->
+ <h2 id="qunit-banner"></h2>
+ <!-- <h2 id="qunit-userAgent"></h2> -->
+ <ol id="qunit-tests"></ol>
+</body>
+</html>
